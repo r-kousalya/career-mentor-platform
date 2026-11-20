@@ -1,18 +1,25 @@
 # Career Mentor Platform
 
-A full-stack career planning workspace built with **Angular 20**, **TypeScript**, **Spring Boot 3**, and **PostgreSQL**.
+A portfolio project for planning career growth, tracking applications and practising interviews. Built with **Angular 20**, **TypeScript**, **Spring Boot 3**, and **PostgreSQL**.
 
-## What is included
+## Features
 
-- Career dashboard with progress overview and quick actions
-- Job application tracker (Applied, Interview, Offer, Rejected)
-- Skills and learning goals
-- Interview practice question bank
-- Responsive interface for desktop, tablet, and mobile
-- Spring Boot REST API with PostgreSQL persistence
-- Local demo mode in the frontend, so the UI can be explored before the API is running
+### Angular frontend
+- Responsive dashboard with application and learning summaries
+- Job application tracker with search, status filters, add, update and remove actions
+- Learning roadmap with editable progress
+- Interview question library with answer frameworks
+- AI mentor concept screen with clear coming-soon state
+- Browser localStorage persistence for demo applications and goals
 
-> This is a portfolio/demo application. It does not include production authentication, real AI model calls, or deployment credentials. The AI mentor screen is clearly presented as a planned integration rather than pretending to return live AI results.
+### Spring Boot API
+- REST endpoints for job applications and learning goals
+- Interview question endpoint
+- Health check endpoint
+- PostgreSQL persistence using Spring Data JPA
+- Request validation and local CORS configuration
+
+> The Angular app currently runs in local demo mode. It is not yet wired to the Spring Boot API. The AI mentor is a UI placeholder; no live model is called. Authentication and production deployment are not included yet.
 
 ## Repository structure
 
@@ -31,9 +38,7 @@ npm install
 npm start
 ```
 
-Open http://localhost:4200.
-
-The frontend starts in demo mode and persists changes in browser localStorage. To connect it to the API, set `apiBaseUrl` in `frontend/src/app/core/api.config.ts` to `http://localhost:8080/api` and enable the backend profile.
+Open http://localhost:4200. Demo job and learning data is stored in browser localStorage.
 
 ## Run the backend
 
@@ -49,24 +54,27 @@ cd backend
 mvn spring-boot:run
 ```
 
-API base URL: http://localhost:8080/api
+API base URL: http://localhost:8080
 
-## Main API endpoints
+See [backend/README.md](backend/README.md) for API details.
+
+## API endpoints
 
 | Method | Endpoint | Purpose |
 |---|---|---|
-| GET/POST | /api/jobs | List and create applications |
-| PUT/DELETE | /api/jobs/{id} | Update or delete an application |
-| GET/POST | /api/goals | List and create learning goals |
-| PUT/DELETE | /api/goals/{id} | Update or delete a goal |
-| GET | /api/questions | Interview question bank |
-| GET | /api/health | Health check |
+| GET/POST | `/api/jobs` | List and create applications |
+| PUT/DELETE | `/api/jobs/{id}` | Update or delete an application |
+| GET/POST | `/api/goals` | List and create learning goals |
+| PUT/DELETE | `/api/goals/{id}` | Update or delete a goal |
+| GET | `/api/questions` | Interview question bank |
+| GET | `/api/health` | Health check |
 
-## Next production steps
+## Roadmap
 
-1. Add authentication and per-user authorization.
-2. Add validation, pagination, and integration tests.
-3. Connect a server-side AI provider using environment-managed secrets.
-4. Add CI, hosting, database backups, and monitoring.
+1. Connect Angular services to the REST API.
+2. Add authentication and per-user authorization.
+3. Add integration tests and database migrations.
+4. Add a secure server-side AI provider integration.
+5. Add CI, hosting, monitoring and backups.
 
 Never commit passwords, API keys, or personal tokens.
