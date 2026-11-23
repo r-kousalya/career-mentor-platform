@@ -29,7 +29,7 @@ interface Goal { id: number; title: string; category: string; progress: number; 
           <div class="stat-grid">
             <article class="stat-card"><div class="stat-top"><span>Applications sent</span><span class="stat-icon lilac">↗</span></div><div class="stat-number">{{jobs.length.toString().padStart(2,'0')}}</div><div class="stat-foot"><span class="trend">↑ 2</span> this month</div><div class="mini-bars"><i *ngFor="let h of [30,48,38,65,48,75,58,88,68,100,78,90]" [style.height.%]="h"></i></div></article>
             <article class="stat-card"><div class="stat-top"><span>In the pipeline</span><span class="stat-icon peach">◷</span></div><div class="stat-number">{{interviewCount.toString().padStart(2,'0')}}</div><div class="stat-foot">Active interview processes</div><div class="pipeline-dots"><i *ngFor="let x of [1,2,3,4,5,6,7,8]" [class.filled]="x<=interviewCount"></i></div></article>
-            <article class="stat-card"><div class="stat-top"><span>Learning progress</span><span class="stat-icon mint">⌁</span></div><div class="stat-number">68<span class="percent">%</span></div><div class="stat-foot"><span class="trend">↑ 12%</span> from last month</div><div class="progress-line"><i></i></div></article>
+            <article class="stat-card"><div class="stat-top"><span>Learning progress</span><span class="stat-icon mint">⌁</span></div><div class="stat-number">{{averageProgress}}<span class="percent">%</span></div><div class="stat-foot">Average across {{goals.length}} learning goals</div><div class="progress-line"><i></i></div></article>
             <article class="stat-card"><div class="stat-top"><span>Career focus</span><span class="stat-icon yellow">✳</span></div><div class="stat-number focus-number">Full-stack<br>& AI</div><div class="stat-foot">Your current direction</div><div class="focus-tags"><span>Frontend</span><span>AI</span></div></article>
           </div>
           <div class="section-grid">
@@ -75,12 +75,7 @@ export class AppComponent {
   newRole=''; newCompany=''; newStatus:JobStatus='Applied';
   navItems=[{id:'overview',label:'Overview',icon:'⌂'},{id:'jobs',label:'Job applications',icon:'▤'},{id:'roadmap',label:'Learning roadmap',icon:'⌁'},{id:'interview',label:'Interview practice',icon:'✳'},{id:'mentor',label:'AI career mentor',icon:'✧'}];
   filters=['All','Applied','Interview','Offer','Rejected'];
-  jobs:Job[]=[
-    {id:1,role:'Senior Frontend Engineer',company:'Atlassian',date:'Nov 18, 2026',status:'Interview',color:'#e8e4fb'},
-    {id:2,role:'UI Engineer',company:'Freshworks',date:'Nov 14, 2026',status:'Applied',color:'#fbe9dd'},
-    {id:3,role:'Frontend Developer',company:'Razorpay',date:'Nov 08, 2026',status:'Applied',color:'#dff0e9'},
-    {id:4,role:'Software Engineer II',company:'Thoughtworks',date:'Nov 02, 2026',status:'Rejected',color:'#f5e9e9'}
-  ];
+  jobs:Job[]=[];
   goals:Goal[]=[
     {id:1,title:'Advanced Angular & architecture',category:'Frontend',progress:82,due:'Dec 2026'},
     {id:2,title:'Java + Spring Boot foundations',category:'Backend',progress:64,due:'Jan 2027'},
@@ -94,6 +89,8 @@ export class AppComponent {
     {type:'CAREER STORY',text:'Why are you moving towards full-stack and AI?',hint:'Connect your frontend experience to the capabilities you are building.',tip:'Describe the product problems you want to solve end-to-end and give concrete examples of the backend and AI skills you are actively developing.'}
   ];
   constructor(){this.load();}
+  get todayLabel(){return new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'short'}).toUpperCase();}
+  get averageProgress(){return this.goals.length?Math.round(this.goals.reduce((sum,g)=>sum+g.progress,0)/this.goals.length):0;}
   get pageTitle(){return this.navItems.find(n=>n.id===this.activeView)?.label??'Overview';}
   get interviewCount(){return this.jobs.filter(j=>j.status==='Interview').length;}
   get filteredJobs(){return this.jobs.filter(j=>(this.jobFilter==='All'||j.status===this.jobFilter)&&(`${j.role} ${j.company}`.toLowerCase().includes(this.searchTerm.toLowerCase())));}
