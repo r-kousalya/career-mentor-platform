@@ -102,6 +102,7 @@ export class AppComponent {
   cycleStatus(job:Job){const statuses:JobStatus[]=['Applied','Interview','Offer','Rejected'];job.status=statuses[(statuses.indexOf(job.status)+1)%statuses.length];this.save();}
   addJob(){if(!this.newRole.trim()||!this.newCompany.trim())return;this.jobs.unshift({id:Date.now(),role:this.newRole.trim(),company:this.newCompany.trim(),date:new Date().toLocaleDateString('en-US',{month:'short',day:'2-digit',year:'numeric'}),status:this.newStatus,color:'#e7edf7'});this.newRole='';this.newCompany='';this.newStatus='Applied';this.openJobForm=false;this.save();}
   deleteJob(id:number){this.jobs=this.jobs.filter(j=>j.id!==id);this.save();}
-  increaseGoal(goal:Goal){goal.progress=Math.min(100,goal.progress+10);this.save();}\n  save(){try{localStorage.setItem('careerly-jobs',JSON.stringify(this.jobs));localStorage.setItem('careerly-goals',JSON.stringify(this.goals));}catch{}}
+  increaseGoal(goal:Goal){goal.progress=Math.min(100,goal.progress+10);this.save();}
+  save(){try{localStorage.setItem('careerly-jobs',JSON.stringify(this.jobs));localStorage.setItem('careerly-goals',JSON.stringify(this.goals));}catch{}}
   load(){try{const j=localStorage.getItem('careerly-jobs');const g=localStorage.getItem('careerly-goals');if(j)this.jobs=JSON.parse(j);if(g)this.goals=JSON.parse(g);}catch{}}
 }
